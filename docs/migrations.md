@@ -59,9 +59,9 @@ Dentro de ambos métodos puedes usar el constructor de esquema de Laravel para c
 ```php
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateFlightsTable extends Migration
 {
@@ -338,6 +338,37 @@ Modificador  |  Descripción
 `->virtualAs($expression)`  |  Crea una columna virtual generada por la expresión (MySQL)   
 `->generatedAs($expression)`  |  Crea una columna de identidad con opciones de secuencia especificadas (PostgreSQL)
 `->always()`  |  Define la prioridad de los valores de secuencia sobre la entrada para una columna de identidad (PostgreSQL)
+
+#### Default Expressions
+El modificador `default` puede tomar un valor o un` \ Illuminate \ Database \ Query \ Expression`. El uso de una 'Expresión' evitará ajustar el valor entre comillas y le permitirá usar funciones específicas de la base de datos.
+Un lugar en el que esto es particularmente útil es la asignación de valores predeterminados a las columnas JSON:
+```
+    <?php
+    use Illuminate\Support\Facades\Schema;
+    use Illuminate\Database\Schema\Blueprint;
+    use Illuminate\Database\Query\Expression;
+    use Illuminate\Database\Migrations\Migration;
+    class CreateFlightsTable extends Migration
+    {
+        /**
+         * Run the migrations.
+         *
+         * @return void
+         */
+        public function up()
+        {
+            Schema::create('flights', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->json('movies')->default(new Expression('(JSON_ARRAY())'));
+                $table->timestamps();
+            });
+        }
+    }
+```
+
+::: danger Nota
+La compatibilidad con las expresiones predeterminadas depende del controlador de la base de datos, la versión de la base de datos y el tipo de campo. Consulte la documentación correspondiente para ver la compatibilidad. También tenga en cuenta que el uso de funciones específicas de la base de datos puede acoplarlo estrechamente a un controlador específico.
+:::
 
 <a name="modifying-columns"></a>
 ### Modificando columnas
