@@ -29,7 +29,7 @@ Para desarrollo local, deberías establecer la variable de entorno a `true`. En 
 <a name="report-method"></a>
 ### Método report
 
-Todas las excepciones son manejadas por la clase `App\Exceptions\Handler`. Esta clase contiene dos métodos: `report` y `render`. Examinaremos cada uno de estos métodos en detalle. El método `report` se usa para registrar excepciones o enviarlas a un servicio externo como [Bugsnag](https://bugsnag.com) o [Sentry](https://github.com/getsentry/sentry-laravel). De forma predeterminada, el método `report` pasa la excepción a la clase base donde la excepción es registrada. Sin embargo, eres libre de registrar excepciones en la forma que desees.
+Todas las excepciones son manejadas por la clase `App \ Exceptions \ Handler`. Esta clase contiene dos métodos: `report` y` render`. Examinaremos cada uno de estos métodos en detalle. El método `report` se usa para registrar excepciones o enviarlas a un servicio externo como [Flare] (https://flareapp.io), [Bugsnag] (https://bugsnag.com) o [Sentry] (https: //github.com/getsentry/sentry-laravel). Por defecto, el método `report` pasa la excepción a la clase base donde se registra la excepción. Sin embargo, puede registrar excepciones de la forma que desee.
 
 Por ejemplo, si necesitas reportar distintos tipos de excepciones en diferentes formas, puedes usar el operador de comparación `instanceof` de PHP:
 
@@ -37,7 +37,7 @@ Por ejemplo, si necesitas reportar distintos tipos de excepciones en diferentes 
 /**
 * Report or log an exception.
 *
-* This is a great spot to send exceptions to Sentry, Bugsnag, etc.
+* This is a great spot to send exceptions to Flare, Sentry, Bugsnag, etc.
 *
 * @param  \Exception  $exception
 * @return void
