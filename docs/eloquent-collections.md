@@ -47,6 +47,51 @@ Todas las colecciones de Eloquent extienden el objeto de [colección de Laravel]
 
 Adicionalmente, la clase `Illuminate\Database\Eloquent\Collection` proporciona una serie de métodos para ayudarte a administrar tus colecciones de modelos. La mayoría de los métodos retornan instancias de `Illuminate\Database\Eloquent\Collection`; sin embargo, algunos métodos retornan una instancia base `Illuminate\Support\Collection`.
 
+
+<style>
+    #collection-method-list > p {
+        column-count: 1; -moz-column-count: 1; -webkit-column-count: 1;
+        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
+    }
+
+    #collection-method-list a {
+        display: block;
+    }
+</style>
+
+<div id="collection-method-list" markdown="1">
+
+[contains](#method-contains)
+
+[diff](#method-diff)
+
+[except](#method-except)
+
+[find](#method-find)
+
+[fresh](#method-fresh)
+
+[intersect](#method-intersect)
+
+[load](#method-load)
+
+[loadMissing](#method-loadMissing)
+
+[modelKeys](#method-modelKeys)
+
+[makeVisible](#method-makeVisible)
+
+[makeHidden](#method-makeHidden)
+
+[only](#method-only)
+
+[unique](#method-unique)
+
+</div>
+
+
+<a name="method-contains"></a>
+
 #### `contains($key, $operator = null, $value = null)`
 
 El método `contains` puede ser usado para determinar si una instancia de modelo dada es contenida por la colección. Este método acepta una clave primaria o una instancia de modelo:
@@ -57,6 +102,7 @@ $users->contains(1);
 $users->contains(User::find(1));
 ```
 
+<a name="method-diff"></a>
 #### `diff($items)`
 
 El método `diff` retorna todos los modelos que no están presentes en la colección dada:
@@ -67,6 +113,7 @@ use App\User;
 $users = $users->diff(User::whereIn('id', [1, 2, 3])->get());
 ```
 
+<a name="method-except"></a>
 #### `except($keys)`
 
 El método `except` retorna todos los modelos que no tienen las claves primarias dadas:
@@ -75,6 +122,7 @@ El método `except` retorna todos los modelos que no tienen las claves primarias
 $users = $users->except([1, 2, 3]);
 ```
 
+<a name="method-find"></a>
 #### `find($key)` {#collection-method .first-collection-method}
 
 El método `find` encuentra un modelo que tienen una clave primaria dada. Si `$key` es una instancia de modelo, `find` intentará retornar un modelo que coincida con la clave primaria. Si `$key` es un arreglo de claves, `find` retornará todos los modelos que coincidan con las `$keys` usando `whereIn()`:
@@ -85,6 +133,7 @@ $users = User::all();
 $user = $users->find(1);
 ```
 
+<a name="method-fresh"></a>
 #### `fresh($with = [])`
 
 El método `fresh` retorna una instancia nueva de cada modelo en la colección desde la base de datos. Adicionalmente, cualquier relación especificada será cargada por adelantado:
@@ -95,6 +144,7 @@ $users = $users->fresh();
 $users = $users->fresh('comments');
 ```
 
+<a name="method-intersect"></a>
 #### `intersect($items)`
 
 El método `intersect` retorna todos los modelos que también están presentes en la colección dada:
@@ -105,6 +155,7 @@ use App\User;
 $users = $users->intersect(User::whereIn('id', [1, 2, 3])->get());
 ```
 
+<a name="method-load"></a>
 #### `load($relations)`
 
 El método `load` carga por adelantado las relaciones dadas para todos los modelos en la colección:
@@ -115,6 +166,7 @@ $users->load('comments', 'posts');
 $users->load('comments.author');
 ```
 
+<a name="method-loadMissing"></a>
 #### `loadMissing($relations)`
 
 El método `loadMissing` carga por adelantado las relaciones dadas para todos los modelos en la colección si las relaciones aún no han sido cargadas:
@@ -125,6 +177,7 @@ $users->loadMissing('comments', 'posts');
 $users->loadMissing('comments.author');
 ```
 
+<a name="method-modelKeys"></a>
 #### `modelKeys()`
 
 El método `modelKeys` retorna las claves primarias para todos los modelos en la colección:
@@ -135,6 +188,7 @@ $users->modelKeys();
 // [1, 2, 3, 4, 5]
 ```
 
+<a name="method-makeVisible"></a>
 #### `makeVisible($attributes)`
 
 El método `makeVisible` hace visibles los atributos que normalmente están "ocultados" en cada modelo de la colección:
@@ -143,6 +197,7 @@ El método `makeVisible` hace visibles los atributos que normalmente están "ocu
 $users = $users->makeVisible(['address', 'phone_number']);
 ```
 
+<a name="method-makeHidden"></a>
 #### `makeHidden($attributes)`
 
 El método `makeHidden` oculta los atributos que normalmente están "visibles" en cada modelo de la colección:
@@ -151,6 +206,7 @@ El método `makeHidden` oculta los atributos que normalmente están "visibles" e
 $users = $users->makeHidden(['address', 'phone_number']);
 ```
 
+<a name="method-only"></a>
 #### `only($keys)`
 
 El método `only` retorna todos los modelos que tienen las claves primarias dadas:
@@ -159,6 +215,7 @@ El método `only` retorna todos los modelos que tienen las claves primarias dada
 $users = $users->only([1, 2, 3]);
 ```
 
+<a name="method-unique"></a>
 #### `unique($key = null, $strict = false)`
 
 El método `unique` retorna todos los modelos únicos en la colección. Cualquier modelo del mismo tipo con las mismas claves primarias que otro modelo en la colección es removido.
