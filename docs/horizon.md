@@ -180,6 +180,7 @@ Una vez que se ha creado el archivo de configuración, puede actualizar la confi
 
 Para obtener más información sobre Supervisor, consulte la [documentación del Supervisor] (http://supervisord.org/index.html).
 
+
 <a name="tags"></a>
 ## Etiquetas
 
