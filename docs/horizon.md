@@ -143,9 +143,19 @@ php artisan horizon:terminate
 
 Si estás usando Horizon en un servidor activo, deberías configurar un monitor de proceso para monitorear el comando `php artisan horizon` y reiniciarlo si éste sale inesperadamente. Al momento de usar código reciente en tu servidor, necesitarás instruir el proceso maestro de Horizon para que termine así puede ser reiniciado por tu monitor de proceso y recibir tu cambios de código.
 
+#### Intalación de Supervisor
+
+Supervisor es un monitor de proceso para el sistema operativo Linux y reiniciará automáticamente su proceso `horizon` si falla. Para instalar Supervisor en Ubuntu, puede usar el siguiente comando:
+
+    sudo apt-get install supervisor
+
+::: tip TIP
+Si configurar Supervisor usted mismo parece abrumador, considere usar [Laravel Forge] (https://forge.laravel.com), que instalará y configurará automáticamente Supervisor para sus proyectos de Laravel.
+:::
+
 #### Configuración de Supervisor
 
-Si estás usando el monitor de procesos de Supervisor para administrar tu proceso `horizon`, el siguiente archivo de configuración debería ser suficiente:
+Los archivos de configuración del supervisor generalmente se almacenan en el directorio `/ etc / supervisor / conf.d`. Dentro de este directorio, puede crear cualquier cantidad de archivos de configuración que le indiquen al supervisor cómo deben monitorearse sus procesos. Por ejemplo, creemos un archivo `horizon.conf` que comience y monitoree un proceso` horizon`:
 
 ```php
 [program:horizon]
@@ -158,9 +168,17 @@ redirect_stderr=true
 stdout_logfile=/home/forge/app.com/horizon.log
 ```
 
-::: tip TIP
-Si no estás cómodo administrando tus propios servidores, considera usar [Laravel Forge](https://forge.laravel.com). Forge aprovisiona tus propios servidores PHP 7+ con todo lo que necesitas para administrar modernas aplicaciones robustas de Laravel con Horizon.
-:::
+#### Iniciando Supervisor
+
+Una vez que se ha creado el archivo de configuración, puede actualizar la configuración del Supervisor e iniciar los procesos con los siguientes comandos:
+
+    sudo supervisorctl reread
+
+    sudo supervisorctl update
+
+    sudo supervisorctl start horizon
+
+Para obtener más información sobre Supervisor, consulte la [documentación del Supervisor] (http://supervisord.org/index.html).
 
 <a name="tags"></a>
 ## Etiquetas
@@ -174,10 +192,10 @@ namespace App\Jobs;
 
 use App\Video;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class RenderVideo implements ShouldQueue
 {
