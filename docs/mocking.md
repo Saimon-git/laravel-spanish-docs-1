@@ -64,11 +64,11 @@ Como una alternativa a mocking, puedes usar el método `fake` de la clase facade
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Jobs\ShipOrder;
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\Bus;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
@@ -98,12 +98,12 @@ Como una alternativa a mocking, puedes usar el método `fake` de la clase facade
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Events\OrderShipped;
 use App\Events\OrderFailedToShip;
-use Illuminate\Support\Facades\Event;
+use App\Events\OrderShipped;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\Event;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
@@ -166,12 +166,12 @@ Si sólo quieres hacer fake a oyentes de eventos para una porción de la prueba,
 
 namespace Tests\Feature;
 
-use App\Order;
-use Tests\TestCase;
 use App\Events\OrderCreated;
-use Illuminate\Support\Facades\Event;
+use App\Order;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
@@ -204,11 +204,11 @@ Puedes usar el método `fake` de la clase facade `Mail` para prevenir que los co
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Mail\OrderShipped;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
@@ -258,12 +258,12 @@ Puedes usar el método `fake` de la clase facade `Notification` para prevenir qu
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Notifications\OrderShipped;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Support\Facades\Notification;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
@@ -298,6 +298,16 @@ class ExampleTest extends TestCase
         Notification::assertSentTo(
             new AnonymousNotifiable, OrderShipped::class
         );
+        
+        // Notificación de afirmación :: el método route () envió una notificación al usuario correcto ...
+        Notification::assertSentTo(
+            new AnonymousNotifiable,
+             OrderShipped::class,
+             function ($notification, $channels, $notifiable) use ($user) {
+                           return $notifiable->routes['mail'] === $user->email;
+             }
+        );
+
     }
 }
 ```
@@ -312,11 +322,11 @@ Como alternativa a mocking, puedes usar el método `fake` de la clase facade `Qu
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Jobs\ShipOrder;
-use Illuminate\Support\Facades\Queue;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\Queue;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
@@ -361,11 +371,11 @@ El método fake de la clase facade `Storage` permite que generes fácilmente un 
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
@@ -428,10 +438,10 @@ Podemos simular (mock) la ejecución de la clase facade `Cache` usando el métod
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\Cache;
+use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
